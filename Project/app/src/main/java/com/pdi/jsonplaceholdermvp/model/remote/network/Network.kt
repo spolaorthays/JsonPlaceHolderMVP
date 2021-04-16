@@ -25,7 +25,7 @@ object Network {
             .baseUrl(Constants.BASE_URL)
             .client(httpClient)
             .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create()) //TODO Adapter do RxJava para permitir Single
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create()) //Adapter do RxJava para permitir o uso do Single da chamada com o Retrofit
             .build()
     }
 

@@ -13,6 +13,10 @@ import com.pdi.jsonplaceholdermvp.model.remote.network.Network
 import com.pdi.jsonplaceholdermvp.model.remote.network.PhotoService
 import com.pdi.jsonplaceholdermvp.presenter.MainPresenter
 import com.pdi.jsonplaceholdermvp.presenter.RecyclerPhotosAdapter
+import com.pdi.jsonplaceholdermvp.utils.Constants
+import com.pdi.jsonplaceholdermvp.utils.ManageThreads
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
 class MainActivity : AppCompatActivity(), MainContract.View {
 
@@ -27,9 +31,13 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
         initRecyclerView()
 
+        initRequest()
+    }
+
+    private fun initRequest() {
         repository = MainRepository(Network.provideService(PhotoService::class.java))
         interactor = MainInteractor(repository)
-        presenter = MainPresenter(this, interactor)
+        presenter = MainPresenter(this, interactor, ManageThreads(AndroidSchedulers.mainThread(), Schedulers.io()))
 
         presenter.getPhotosFromInteractor()
     }
@@ -44,7 +52,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     }
 
     override fun showMessageError() {
-        Toast.makeText(this, "Ops, não carregou os dados da API", Toast.LENGTH_LONG).show()
+        Toast.makeText(this, Constants.ERROR_API, Toast.LENGTH_LONG).show()
     }
 
     override fun willDestroyCompositeDisposable() {

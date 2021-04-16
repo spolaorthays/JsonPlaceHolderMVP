@@ -1,23 +1,23 @@
 package com.pdi.jsonplaceholdermvp.presenter
 
 import com.pdi.jsonplaceholdermvp.utils.MainContract
-import io.reactivex.android.schedulers.AndroidSchedulers
+import com.pdi.jsonplaceholdermvp.utils.ManageThreads
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
 import io.reactivex.rxkotlin.subscribeBy
-import io.reactivex.schedulers.Schedulers
 
 class MainPresenter(
     private val view: MainContract.View,
-    private val interactor: MainContract.Interactor
-) : MainContract.Presenter { //TODO Passar os schedulers como parametros
+    private val interactor: MainContract.Interactor,
+    private val scheduler: ManageThreads
+) : MainContract.Presenter {
 
     private val compositeDisposable = CompositeDisposable()
 
     override fun getPhotosFromInteractor() {
         compositeDisposable += interactor.getPhotosFromRepository()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(scheduler.io)
+            .observeOn(scheduler.main)
             .subscribeBy(
                 onError = { view.showMessageError() },
                 onSuccess = view::showListPhotos
