@@ -10,9 +10,9 @@ import com.pdi.jsonplaceholdermvp.R
 import com.pdi.jsonplaceholdermvp.model.local.Photo
 import com.squareup.picasso.Picasso
 
-class RecyclerPhotosAdapter(photoList: List<Photo>) : RecyclerView.Adapter<RecyclerPhotosAdapter.PhotosViewHolder>() {
+class RecyclerPhotosAdapter : RecyclerView.Adapter<RecyclerPhotosAdapter.PhotosViewHolder>() {
 
-    private var listPhotos = photoList.toMutableList()
+    var listPhotos = mutableListOf<Photo>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotosViewHolder {
         val view: View = LayoutInflater.from(parent.context).inflate(
@@ -31,7 +31,7 @@ class RecyclerPhotosAdapter(photoList: List<Photo>) : RecyclerView.Adapter<Recyc
     override fun getItemCount(): Int = listPhotos.size
 
     fun updatePhotos(photoList: List<Photo>) {
-        listPhotos = photoList.toMutableList()
+        listPhotos.addAll(photoList)
         notifyDataSetChanged()
     }
 
