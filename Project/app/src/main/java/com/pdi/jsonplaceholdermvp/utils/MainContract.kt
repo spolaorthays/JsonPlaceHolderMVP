@@ -21,7 +21,7 @@ interface MainContract {
     }
 
     interface Repository {
-        fun getPhotos(): Single<List<Photo>>
+        fun getPhotosFromService(): Single<List<Photo>>
     }
 
 }

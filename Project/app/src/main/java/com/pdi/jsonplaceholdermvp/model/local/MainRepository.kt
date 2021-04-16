@@ -6,7 +6,7 @@ import io.reactivex.Single
 
 class MainRepository(private val service: PhotoService): MainContract.Repository {
 
-    override fun getPhotos(): Single<List<Photo>> {
+    override fun getPhotosFromService(): Single<List<Photo>> {
         return service.getPhotos()
     }
 
